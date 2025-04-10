@@ -17,9 +17,9 @@ public class ReviewImage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewImageId;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
-    private Review review;*/
+    private Review review;
 
     private String imageUrl;
     private LocalDateTime createdAt;

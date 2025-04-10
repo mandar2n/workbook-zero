@@ -23,10 +23,10 @@ public class Store extends BaseEntity {
 
     private Float score;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();*/
+    private List<Review> reviews = new ArrayList<>();
 }
