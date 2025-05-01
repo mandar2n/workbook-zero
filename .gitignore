@@ -39,3 +39,10 @@ out/
 # Spring Boot 설정 파일 제외
 application.yml
 application.properties
+
+clean {
+    delete querydslDir
+}
+
+/src/main/generated
+/build/generated

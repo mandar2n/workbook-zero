@@ -28,5 +28,18 @@ public class Store extends BaseEntity {
     private Region region;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    private List<Mission> missionList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviewList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Store [storeId=" + storeId +
+                ", name=" + name +
+                ", address=" + address +
+                ", score=" + score +
+                ", region=" + (region != null ? region.getName() : "N/A") +
+                '}';
+    }
 }
