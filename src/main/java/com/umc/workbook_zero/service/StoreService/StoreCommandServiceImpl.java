@@ -43,9 +43,9 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     }
 
     @Override
-    public AddReviewResponse addReview(Long storeId, AddReviewRequest request) {
+    public AddReviewResponse addReview(AddReviewRequest request) {
         // 유효성 검증은 @ExistsStore 어노테이션에서 처리됨
-        Store store = storeRepository.getReferenceById(storeId);
+        Store store = storeRepository.getReferenceById(request.getStoreId());
 
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new MemberException(ErrorStatus.MEMBER_NOT_FOUND));

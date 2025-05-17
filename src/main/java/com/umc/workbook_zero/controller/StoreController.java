@@ -26,11 +26,10 @@ public class StoreController {
         return ApiResponse.onSuccess(response);
     }
 
-    @PostMapping("/{storeId}/review")
+    @PostMapping("/review")
     public ApiResponse<AddReviewResponse> addReview(
-            @PathVariable Long storeId,
             @Valid @RequestBody AddReviewRequest request) {
-        AddReviewResponse response = storeCommandService.addReview(storeId, request);
+        AddReviewResponse response = storeCommandService.addReview(request);
         return ApiResponse.onSuccess(response);
     }
 }
