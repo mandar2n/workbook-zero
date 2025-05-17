@@ -34,6 +34,14 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
 
+        // 메시지가 "이미 도전 중인 미션입니다." 인 경우 MISSION409로 변환
+        ErrorStatus errorStatus;
+        if ("이미 도전 중인 미션입니다.".equals(errorMessage)) {
+            errorStatus = ErrorStatus.MISSION_ALREADY_CHALLENGED;
+        } else {
+            errorStatus = ErrorStatus.valueOf(errorMessage);
+        }
+
         return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY,request);
     }
 

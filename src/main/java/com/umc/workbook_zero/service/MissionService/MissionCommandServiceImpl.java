@@ -1,9 +1,11 @@
 package com.umc.workbook_zero.service.MissionService;
 
+import com.umc.workbook_zero.apiPayload.code.status.ErrorStatus;
+import com.umc.workbook_zero.apiPayload.exception.MemberException;
+import com.umc.workbook_zero.apiPayload.exception.MissionException;
 import com.umc.workbook_zero.converter.MissionConverter;
 import com.umc.workbook_zero.domain.Member;
 import com.umc.workbook_zero.domain.Mission;
-import com.umc.workbook_zero.domain.enums.MissionStatus;
 import com.umc.workbook_zero.domain.mapping.MemberMission;
 import com.umc.workbook_zero.dto.request.ChallengeMissionRequest;
 import com.umc.workbook_zero.dto.response.ChallengeMissionResponse;
@@ -25,19 +27,16 @@ public class MissionCommandServiceImpl implements MissionCommandService {
 
     @Override
     public ChallengeMissionResponse challengeMission(@Valid ChallengeMissionRequest request) {
-        Member member = memberRepository.findMemberbyId(request.getMemberId());
-        Mission mission = missionRepository.findMissionbyId(request.getMissionId());
+        Member member = memberRepository.findById(request.getMemberId())
+                .orElseThrow(() -> new MemberException(ErrorStatus.MEMBER_NOT_FOUND));
 
-        MemberMission memberMission = MemberMission.builder()
-                .member(member)
-                .mission(mission)
-                .status(MissionStatus.CHALLENGING)
-                .build();
+        Mission mission = missionRepository.findById(request.getMissionId())
+                .orElseThrow(() -> new MissionException(ErrorStatus.MISSION_NOT_FOUND));
+
+        MemberMission memberMission = missionConverter.toMemberMission(member, mission);
 
         memberMissionRepository.save(memberMission);
         return missionConverter.toChallengeMissionResponse(memberMission);
     }
-
-
 
 }
