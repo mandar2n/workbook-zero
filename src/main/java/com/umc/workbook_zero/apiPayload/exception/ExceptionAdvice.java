@@ -42,12 +42,20 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
         Map<String, String> errors = new LinkedHashMap<>();
 
+        // 필드 에러
         e.getBindingResult().getFieldErrors().stream()
                 .forEach(fieldError -> {
                     String fieldName = fieldError.getField();
                     String errorMessage = Optional.ofNullable(fieldError.getDefaultMessage()).orElse("");
                     errors.merge(fieldName, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage + ", " + newErrorMessage);
                 });
+
+        // 클래스 레벨 에러 처리
+        e.getBindingResult().getGlobalErrors().forEach(globalError -> {
+            String objectName = globalError.getObjectName(); // ex: challengeMissionRequest
+            String errorMessage = Optional.ofNullable(globalError.getDefaultMessage()).orElse("");
+            errors.merge(objectName, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage + ", " + newErrorMessage);
+        });
 
         return handleExceptionInternalArgs(e,HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"),request,errors);
     }
