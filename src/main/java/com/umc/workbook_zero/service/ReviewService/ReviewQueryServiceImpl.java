@@ -26,8 +26,6 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     public List<MyReviewResponse> getMyReviews(Long memberId, int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").descending());
         Page<Review> reviews = reviewRepository.findByMember_MemberId(memberId, pageable);
-        return reviews.stream()
-                .map(reviewConverter::toMyReviewResponse)
-                .collect(Collectors.toList());
+        return reviewConverter.toMyReviewResponseList(reviews.getContent());
     }
 }

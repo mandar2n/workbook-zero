@@ -7,6 +7,9 @@ import com.umc.workbook_zero.dto.request.AddReviewRequest;
 import com.umc.workbook_zero.dto.response.MyReviewResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ReviewConverter {
     public Review toEntity(AddReviewRequest request, Store store, Member member) {
@@ -28,5 +31,11 @@ public class ReviewConverter {
                 .storeName(review.getStore().getName())
                 .createdAt(review.getCreatedAt())
                 .build();
+    }
+
+    public List<MyReviewResponse> toMyReviewResponseList(List<Review> reviews) {
+        return reviews.stream()
+                .map(this::toMyReviewResponse)
+                .collect(Collectors.toList());
     }
 }
