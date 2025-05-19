@@ -1,2 +1,11 @@
-package com.umc.workbook_zero.validation.annotation;public @interface ValidPage {
+package com.umc.workbook_zero.validation.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ValidPage {
 }
