@@ -21,7 +21,7 @@ public class ReviewController {
     private final ReviewQueryService reviewQueryService;
 
     @GetMapping("/my/review")
-    @Operation(summary = "내가 작성한 리뷰 목록 조회", description = "내가 작성한 리뷰를 10개씩 페이지네이션 처리하여 반환합니다.")
+    @Operation(summary = "내가 작성한 리뷰 목록 조회 API", description = "내가 작성한 리뷰를 10개씩 페이지네이션 처리하여 반환합니다.")
     public ApiResponse<List<MyReviewResponse>> getMyReviews(
             @ValidPage Integer page,
             // @AuthenticationPrincipal Long memberId)
