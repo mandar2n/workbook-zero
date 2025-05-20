@@ -5,6 +5,7 @@ import com.umc.workbook_zero.dto.request.ChallengeMissionRequest;
 import com.umc.workbook_zero.dto.response.ChallengeMissionResponse;
 import com.umc.workbook_zero.dto.response.ChallengingMissionResponse;
 import com.umc.workbook_zero.dto.response.StoreMissionResponse;
+import com.umc.workbook_zero.dto.response.StoreMissionSliceResponse;
 import com.umc.workbook_zero.service.MissionService.MissionCommandService;
 import com.umc.workbook_zero.service.MissionService.MissionQueryService;
 import com.umc.workbook_zero.validation.annotation.ValidPage;
@@ -53,4 +54,15 @@ public class MissionController {
         List<StoreMissionResponse> responses = missionQueryService.getMissionsByStoreId(storeId, page);
         return ApiResponse.onSuccess(responses);
     }
+
+    @GetMapping("/{storeId}/slice")
+    @Operation(summary = "특정 가게의 미션 목록 조회 API - slice 이용", description = "특정한 한 가게의 미션 목록을 조회합니다.")
+    public ApiResponse<StoreMissionSliceResponse> getMissionsByStore2(
+            @PathVariable Long storeId,
+            @ValidPage Integer page
+    ) {
+        StoreMissionSliceResponse responses = missionQueryService.getSliceMissionsByStoreId(storeId, page);
+        return ApiResponse.onSuccess(responses);
+    }
+
 }
