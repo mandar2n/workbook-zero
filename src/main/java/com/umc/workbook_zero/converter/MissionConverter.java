@@ -8,6 +8,7 @@ import com.umc.workbook_zero.domain.mapping.MemberMission;
 import com.umc.workbook_zero.dto.request.AddMissionRequest;
 import com.umc.workbook_zero.dto.response.ChallengeMissionResponse;
 import com.umc.workbook_zero.dto.response.ChallengingMissionResponse;
+import com.umc.workbook_zero.dto.response.StoreMissionResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,6 +50,17 @@ public class MissionConverter {
                         .missionSpec(m.getMissionSpec())
                         .reward(m.getReward())
                         .deadline(m.getDeadline())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public List<StoreMissionResponse> toStoreMissionResponseList(List<Mission> missions) {
+        return missions.stream()
+                .map(mission -> StoreMissionResponse.builder()
+                        .missionId(mission.getMissionId())
+                        .reward(mission.getReward())
+                        .deadline(mission.getDeadline())
+                        .missionSpec(mission.getMissionSpec())
                         .build())
                 .collect(Collectors.toList());
     }
