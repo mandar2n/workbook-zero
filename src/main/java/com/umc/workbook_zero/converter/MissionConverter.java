@@ -7,7 +7,11 @@ import com.umc.workbook_zero.domain.enums.MissionStatus;
 import com.umc.workbook_zero.domain.mapping.MemberMission;
 import com.umc.workbook_zero.dto.request.AddMissionRequest;
 import com.umc.workbook_zero.dto.response.ChallengeMissionResponse;
+import com.umc.workbook_zero.dto.response.ChallengingMissionResponse;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MissionConverter {
@@ -28,7 +32,6 @@ public class MissionConverter {
                 .build();
     }
 
-
     public Mission toEntity(AddMissionRequest request, Store store) {
         return Mission.builder()
                 .store(store)
@@ -36,5 +39,17 @@ public class MissionConverter {
                 .deadline(request.getDeadline())
                 .missionSpec(request.getMissionSpec())
                 .build();
+    }
+
+    public List<ChallengingMissionResponse> toChallengingMissionResponseList(List<Mission> missions) {
+        return missions.stream()
+                .map(m -> ChallengingMissionResponse.builder()
+                        .missionId(m.getMissionId())
+                        .storeName(m.getStore().getName())
+                        .missionSpec(m.getMissionSpec())
+                        .reward(m.getReward())
+                        .deadline(m.getDeadline())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
