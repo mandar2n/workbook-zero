@@ -4,12 +4,10 @@ import com.umc.workbook_zero.converter.MissionConverter;
 import com.umc.workbook_zero.domain.Mission;
 import com.umc.workbook_zero.dto.response.ChallengingMissionResponse;
 import com.umc.workbook_zero.dto.response.StoreMissionResponse;
+import com.umc.workbook_zero.dto.response.StoreMissionSliceResponse;
 import com.umc.workbook_zero.repository.MissionRepository.MissionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,5 +32,13 @@ public class MissionQueryServiceImpl implements MissionQueryService{
         Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").descending());
         Page<Mission> missions = missionRepository.findByStore_StoreId(storeId, pageable);
         return missionConverter.toStoreMissionResponseList(missions.getContent());
+    }
+
+    @Override
+    public StoreMissionSliceResponse getSliceMissionsByStoreId(Long storeId, int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").descending());
+        Slice<Mission> missions = missionRepository.findSliceByStore_StoreId(storeId, pageable);
+        List<StoreMissionResponse> responseList = missionConverter.toStoreMissionResponseList(missions.getContent());
+        return new StoreMissionSliceResponse(responseList, missions.hasNext());
     }
 }
